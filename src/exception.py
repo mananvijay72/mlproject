@@ -1,6 +1,5 @@
 import sys
-import logging
-import logger
+
 
 def get_error_message(error, error_detail: sys):
     # Retrieve exception information
@@ -25,12 +24,3 @@ class CustomException(Exception):
         # Return the detailed error message when the exception is printed
         return self.error_message
 
-
-if __name__ =='__main__':
-
-    try:
-        a = 1/0
-    
-    except Exception as e:
-        logging.info('zero divide')
-        raise CustomException(e, sys)
