@@ -23,7 +23,7 @@ class DataIngestion:
         logging.info("Entered the data ingestion method")
 
         try:
-            df = pd.read_csv(r'notebook\data\student_data.csv')
+            df = pd.read_csv(r'C:\Users\Manan\projects\mlproject\notebook\data\student_data.csv')
             logging.info("Imported the dataset as dataframe")
 
             os.makedirs(os.path.dirname(self.ingestion_config.train_data_path), exist_ok = True)
