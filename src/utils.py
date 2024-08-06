@@ -7,7 +7,7 @@ import pandas as pd
 import numpy as np
 
 from sklearn.metrics import mean_absolute_error, mean_squared_error, r2_score
-
+from sklearn.model_selection import GridSearchCV
 
 def save_object(file_path, obj):
     '''
@@ -26,7 +26,7 @@ def save_object(file_path, obj):
         raise CustomException(e, sys)
     
 
-def evaluate_model(X_train, y_train, X_test, y_test, models:dict):
+def evaluate_model(X_train, y_train, X_test, y_test, models:dict, params):
 
     '''
     Returns the metrics of all the given models 
@@ -37,8 +37,18 @@ def evaluate_model(X_train, y_train, X_test, y_test, models:dict):
         for i in range(len(models)):
 
             model = list(models.values())[i]
+            model_name = list(models.keys())[i]
+            if model_name in params.keys():
+                param = params[model_name]
+            else:
+                param = {}
 
-            #Training Model
+            #Training Model using grid search CV
+            
+            grid = GridSearchCV(model, param_grid=param, cv=3)
+            grid.fit(X_train, y_train)
+
+            model.set_params(**grid.best_params_)
             model.fit(X_train, y_train)
 
             y_train_pred = model.predict(X_train)
